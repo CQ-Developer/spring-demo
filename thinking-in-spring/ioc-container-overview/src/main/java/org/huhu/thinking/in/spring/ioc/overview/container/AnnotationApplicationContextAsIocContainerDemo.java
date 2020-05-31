@@ -27,6 +27,9 @@ public class AnnotationApplicationContextAsIocContainerDemo {
 
 		// 依赖查找集合对象
 		lookupCollectionByType(annotationConfigApplicationContext);
+
+		// 关闭容器上下文
+		annotationConfigApplicationContext.close();
 	}
 
 	/**
