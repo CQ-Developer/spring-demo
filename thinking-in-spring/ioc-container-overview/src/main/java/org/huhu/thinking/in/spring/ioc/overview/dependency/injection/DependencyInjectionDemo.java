@@ -26,7 +26,7 @@ public class DependencyInjectionDemo {
 	public static void main(String[] args) {
 		// 配置XML配置文件, 启动应用上下文
 		// BeanFactory beanFactory = new ClassPathXmlApplicationContext("classpath:META-INF/dependency-injection-context.xml");
-		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:META-INF/dependency-injection-context.xml");
+		ApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:/META-INF/dependency-injection-context.xml");
 
 		// 依赖来源一: 自定义Bean
 		UserRepository userRepository = applicationContext.getBean("userRepository", UserRepository.class);
