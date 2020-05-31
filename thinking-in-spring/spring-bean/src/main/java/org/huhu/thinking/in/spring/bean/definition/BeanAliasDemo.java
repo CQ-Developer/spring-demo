@@ -22,7 +22,7 @@ public class BeanAliasDemo {
 		// 通过别名获取Bean
 		User huhuUser = beanFactory.getBean("huhu-user", User.class);
 
-		// 判断
+		// 判断对象是否相等
 		System.out.println("user和huhuUser是否相同: " + (user == huhuUser));
 
 	}
