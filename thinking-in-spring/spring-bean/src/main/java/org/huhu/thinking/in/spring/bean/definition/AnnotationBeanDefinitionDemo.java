@@ -70,6 +70,7 @@ public class AnnotationBeanDefinitionDemo {
 			// 注册 Bean Definition
 			registry.registerBeanDefinition(beanName, beanDefinitionBuilder.getBeanDefinition());
 		else
+			// 非命名 Bean 注册方法
 			BeanDefinitionReaderUtils.registerWithGeneratedName(beanDefinitionBuilder.getBeanDefinition(), registry);
 	}
 
