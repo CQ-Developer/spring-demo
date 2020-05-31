@@ -42,7 +42,7 @@ public class AnnotationBeanDefinitionDemo {
 		// 4.2.非命名Bean的注册方式
 		registerUserBeanDefinition(annotationConfigApplicationContext);
 
-		// 启动应用上下文
+		// 启动上下文
 		annotationConfigApplicationContext.refresh();
 
 		// 按照类型依赖查找
