@@ -5,6 +5,7 @@ import org.huhu.thinking.in.spring.bean.factory.UserFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * Bean 初始化实例
@@ -25,6 +26,9 @@ public class BeanInitializationDemo {
 		// 启动 Spring 应用上下文
 		applicationContext.refresh();
 
+		// 非延迟初始化在 Spring 应用上下文启动完成后, 被初始化...
+		System.out.println("Spring应用上下文已启动...");
+
 		// 依赖查找
 		UserFactory userFactory = applicationContext.getBean(UserFactory.class);
 
@@ -33,6 +37,7 @@ public class BeanInitializationDemo {
 
 	}
 
+	@Lazy
 	@Bean(initMethod = "initUserFactory")
 	public UserFactory userFactory() {
 		return new DefaultUserFactory();
