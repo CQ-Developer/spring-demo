@@ -15,10 +15,6 @@
 	<description>spring bean 基础</description>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-		</dependency>
 		<dependency><!-- 复用模块 -->
 			<groupId>org.huhu</groupId>
 			<artifactId>ioc-container-overview</artifactId>
