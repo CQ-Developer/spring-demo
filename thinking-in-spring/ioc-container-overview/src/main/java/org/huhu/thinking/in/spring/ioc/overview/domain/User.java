@@ -1,6 +1,8 @@
 package org.huhu.thinking.in.spring.ioc.overview.domain;
 
 import lombok.Data;
+import org.huhu.thinking.in.spring.ioc.overview.enums.City;
+import org.springframework.core.io.Resource;
 
 /**
  * 用户类
@@ -13,6 +15,10 @@ public class User {
 	private Long id;
 
 	private String name;
+
+	private City city;
+
+	private Resource configFileLocation;
 
 	public static User createUser() {
 		User user = new User();
