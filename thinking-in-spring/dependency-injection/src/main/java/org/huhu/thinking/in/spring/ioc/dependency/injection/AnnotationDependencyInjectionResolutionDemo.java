@@ -25,10 +25,10 @@ public class AnnotationDependencyInjectionResolutionDemo {
 	private User lazyUser;
 
 	/**
-	 * 实时注入
-	 * 通过类型 User.class 依赖查找(处理)
-	 * 字段名称 user
-	 * <p>
+	 * 1.实时注入
+	 * 2.通过类型 User.class 依赖查找(处理)
+	 * 3.字段名称 user
+	 *
 	 * required = true
 	 * eager = true
 	 * primary = true
@@ -39,6 +39,11 @@ public class AnnotationDependencyInjectionResolutionDemo {
 	@Autowired
 	private User user;
 
+	/**
+	 * 集合类型依赖注入
+	 * user
+	 * superUser
+	 */
 	@Autowired
 	private Map<String, User> mapUsers;
 
@@ -68,33 +73,17 @@ public class AnnotationDependencyInjectionResolutionDemo {
 		// 依赖查找当前类
 		AnnotationDependencyInjectionResolutionDemo demo = applicationContext.getBean(AnnotationDependencyInjectionResolutionDemo.class);
 
-		System.out.println("user: " + demo.getUser());
+		System.out.println("user: " + demo.user);
 
-		System.out.println("mapUsers: " + demo.getMapUsers());
+		System.out.println("mapUsers: " + demo.mapUsers);
 
-		System.out.println("optionalUser: " + demo.getOptionalUser().get());
+		System.out.println("optionalUser: " + demo.optionalUser);
 
-		System.out.println("lazyUser: " + demo.getLazyUser());
+		System.out.println("lazyUser: " + demo.lazyUser);
 
 		// 关闭应用上下文
 		applicationContext.close();
 
-	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public User getLazyUser() {
-		return lazyUser;
-	}
-
-	public Map<String, User> getMapUsers() {
-		return mapUsers;
-	}
-
-	public Optional<User> getOptionalUser() {
-		return optionalUser;
 	}
 
 }
