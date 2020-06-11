@@ -7,6 +7,7 @@ import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
 
 import java.util.Map;
@@ -18,6 +19,7 @@ import java.util.Set;
  *
  * @author huhu
  */
+@Configuration
 public class AnnotationDependencyInjectionResolutionDemo {
 
 	@Lazy
