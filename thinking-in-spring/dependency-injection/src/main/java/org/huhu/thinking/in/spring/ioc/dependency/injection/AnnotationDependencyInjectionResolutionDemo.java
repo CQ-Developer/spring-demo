@@ -1,14 +1,20 @@
 package org.huhu.thinking.in.spring.ioc.dependency.injection;
 
+import org.huhu.thinking.in.spring.ioc.dependency.injection.annotation.InjectedUser;
+import org.huhu.thinking.in.spring.ioc.dependency.injection.annotation.MyAutwowired;
 import org.huhu.thinking.in.spring.ioc.overview.domain.User;
 import org.springframework.beans.TypeConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.springframework.beans.factory.config.DependencyDescriptor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import javax.inject.Inject;
 import java.util.Map;
@@ -50,11 +56,14 @@ public class AnnotationDependencyInjectionResolutionDemo {
 	@Autowired
 	private Map<String, User> mapUsers;
 
-	@Autowired
+	@MyAutwowired
 	private Optional<User> optionalUser;
 
 	@Inject
 	private User injectUser;
+
+	@InjectedUser
+	private User myInjectUser;
 
 	public static void main(String[] args) {
 
@@ -89,9 +98,34 @@ public class AnnotationDependencyInjectionResolutionDemo {
 
 		System.out.println("lazyUser: " + demo.lazyUser);
 
+		System.out.println("myInjectUser: " + demo.myInjectUser);
+
 		// 关闭应用上下文
 		applicationContext.close();
 
 	}
+
+	@Bean
+	@Order(Ordered.LOWEST_PRECEDENCE - 3)
+	public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
+		AutowiredAnnotationBeanPostProcessor beanPostProcessor = new AutowiredAnnotationBeanPostProcessor();
+
+		beanPostProcessor.setAutowiredAnnotationType(InjectedUser.class);
+
+		return beanPostProcessor;
+	}
+
+	// @Bean(name = AUTOWIRED_ANNOTATION_PROCESSOR_BEAN_NAME)
+	// public static AutowiredAnnotationBeanPostProcessor beanPostProcessor() {
+	// 	AutowiredAnnotationBeanPostProcessor beanPostProcessor = new AutowiredAnnotationBeanPostProcessor();
+	//
+	// 	// @Autowired @InjectUser @Inject
+	// 	Set<Class<? extends Annotation>> autowiredAnnotationTypes =
+	// 			new LinkedHashSet<>(asList(Autowired.class, Inject.class, InjectedUser.class));
+	//
+	// 	beanPostProcessor.setAutowiredAnnotationTypes(autowiredAnnotationTypes);
+	//
+	// 	return beanPostProcessor;
+	// }
 
 }
