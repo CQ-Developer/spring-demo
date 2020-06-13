@@ -11,6 +11,8 @@ import javax.annotation.PostConstruct;
  * 只能用于依赖注入, 不能用于依赖查找, 并没有 Bean 的类型来供我们操作
  * 只能用于类型方面的依赖注入, 不能用于名称方面的依赖注入
  *
+ * 它是非 Spring 容器管理对象作为依赖来源的体现
+ *
  * @author huhu
  */
 public class ResolvableDependencySourceDemo {
