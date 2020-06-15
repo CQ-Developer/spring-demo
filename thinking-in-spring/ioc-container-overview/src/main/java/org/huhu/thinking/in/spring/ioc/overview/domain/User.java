@@ -2,8 +2,11 @@ package org.huhu.thinking.in.spring.ioc.overview.domain;
 
 import lombok.Data;
 import org.huhu.thinking.in.spring.ioc.overview.enums.City;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.core.io.Resource;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.List;
 
 /**
@@ -12,7 +15,7 @@ import java.util.List;
  * @author huhu
  */
 @Data
-public class User {
+public class User implements BeanNameAware {
 
 	private Long id;
 
@@ -26,11 +29,29 @@ public class User {
 
 	private Resource configFileLocation;
 
+	/** 当前 Bean 的抿名称 */
+	private String beanName;
+
 	public static User createUser() {
 		User user = new User();
 		user.setId(1L);
 		user.setName("呼呼");
 		return user;
+	}
+
+	@PostConstruct
+	public void init() {
+		System.out.println("user bean " + beanName + " 初始化...");
+	}
+
+	@PreDestroy
+	public void destroy() {
+		System.out.println("user bean " + beanName + " 销毁...");
+	}
+
+	@Override
+	public void setBeanName(String name) {
+		this.beanName = name;
 	}
 
 }
