@@ -3,7 +3,7 @@ package org.huhu.thinking.in.spring.ioc.bean.scope.web;
 import org.huhu.thinking.in.spring.ioc.overview.domain.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.context.annotation.SessionScope;
+import org.springframework.web.context.annotation.ApplicationScope;
 import org.springframework.web.context.request.AbstractRequestAttributesScope;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
@@ -24,8 +24,9 @@ public class WebConfiguration {
 	 * @return userBean
 	 */
 	// @RequestScope
+	// @SessionScope
 	@Bean
-	@SessionScope
+	@ApplicationScope
 	public User user() {
 		User user = new User();
 		user.setId(1L);
