@@ -14,6 +14,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
+	/**
+	 * CGLIB代理对象 (不变的)
+	 */
 	@Autowired
 	private User user;
 
