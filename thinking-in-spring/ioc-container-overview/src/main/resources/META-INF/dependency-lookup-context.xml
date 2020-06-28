@@ -10,6 +10,7 @@
 	<!--<context:annotation-config/>
 	<context:component-scan base-package="org.acm"/>-->
 
+	<!-- Root BeanDefinition 不需要合并 不存在parent -->
 	<bean id="user" class="org.huhu.thinking.in.spring.ioc.overview.domain.User">
 		<property name="id" value="1"/>
 		<property name="name" value="呼呼"/>
@@ -25,6 +26,7 @@
 		<property name="configFileLocation" value="classpath:/META-INF/user-config.properties"/>
 	</bean>
 
+	<!-- 普通 BeanDefinition GenericBeanDefinition -->
 	<bean id="superUser" class="org.huhu.thinking.in.spring.ioc.overview.domain.SuperUser" parent="user" primary="true">
 		<property name="address" value="南京"/>
 	</bean>
