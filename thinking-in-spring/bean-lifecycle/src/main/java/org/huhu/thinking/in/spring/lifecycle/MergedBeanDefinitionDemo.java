@@ -2,6 +2,7 @@ package org.huhu.thinking.in.spring.lifecycle;
 
 import org.huhu.thinking.in.spring.ioc.overview.domain.SuperUser;
 import org.huhu.thinking.in.spring.ioc.overview.domain.User;
+import org.springframework.beans.factory.support.AbstractBeanFactory;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
@@ -10,6 +11,8 @@ import org.springframework.core.io.support.EncodedResource;
 
 /**
  * 合并 BeanDefinition 示例
+ *
+ * 参考 {@link AbstractBeanFactory#getMergedBeanDefinition(java.lang.String)} 方法
  *
  * @author HuHu
  */
