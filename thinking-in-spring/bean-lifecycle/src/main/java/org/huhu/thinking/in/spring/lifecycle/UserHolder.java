@@ -1,24 +1,27 @@
-package org.huhu.thinking.in.spring.ioc.overview.domain;
+package org.huhu.thinking.in.spring.lifecycle;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.huhu.thinking.in.spring.ioc.overview.annotation.Super;
+import org.huhu.thinking.in.spring.ioc.overview.domain.User;
 
 /**
- * 超级用户
+ * user holder 类
  *
- * @author huhu
+ * @author HuHu
  */
-@Super
 @Getter
 @Setter
-@EqualsAndHashCode(callSuper = true)
-public class SuperUser extends User {
+@EqualsAndHashCode
+public class UserHolder {
 
-	private String address;
+	private final User user;
+
+	public UserHolder(User user) {
+		this.user = user;
+	}
 
 	@Override
 	public String toString() {
@@ -26,5 +29,3 @@ public class SuperUser extends User {
 	}
 
 }
-
-

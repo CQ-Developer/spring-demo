@@ -6,8 +6,6 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -25,8 +23,9 @@ public class BeanInstantiationLifecycleDemo {
 
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
 
-		Resource resource = new ClassPathResource("/META-INF/dependency-lookup-context.xml");
-		int beanDefinitionsCount = beanDefinitionReader.loadBeanDefinitions(resource);
+		String[] locations = {"classpath:/META-INF/bean-constructor-dependency-injection.xml",
+				"classpath:/META-INF/dependency-lookup-context.xml"};
+		int beanDefinitionsCount = beanDefinitionReader.loadBeanDefinitions(locations);
 
 		System.out.println("已加载的 BeanDefinition 数量: " + beanDefinitionsCount);
 
@@ -35,6 +34,10 @@ public class BeanInstantiationLifecycleDemo {
 
 		User superUser = beanFactory.getBean("superUser", User.class);
 		System.out.println(superUser);
+
+		// 构造器注入按照类型注入 resolveDependency
+		UserHolder userHolder = beanFactory.getBean("userHolder", UserHolder.class);
+		System.out.println(userHolder);
 	}
 
 	private static class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {

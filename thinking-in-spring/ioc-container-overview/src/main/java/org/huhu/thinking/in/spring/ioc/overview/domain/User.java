@@ -1,6 +1,10 @@
 package org.huhu.thinking.in.spring.ioc.overview.domain;
 
-import lombok.Data;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 import org.huhu.thinking.in.spring.ioc.overview.enums.City;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.core.io.Resource;
@@ -14,7 +18,9 @@ import java.util.List;
  *
  * @author huhu
  */
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode
 public class User implements BeanNameAware {
 
 	private Long id;
@@ -52,6 +58,11 @@ public class User implements BeanNameAware {
 	@Override
 	public void setBeanName(String name) {
 		this.beanName = name;
+	}
+
+	@Override
+	public String toString() {
+		return JSON.toJSONString(this, SerializerFeature.WriteMapNullValue);
 	}
 
 }
