@@ -30,21 +30,20 @@ public class BeanInstantiationLifecycleDemo {
 		System.out.println("已加载的 BeanDefinition 数量: " + beanDefinitionsCount);
 
 		User user = beanFactory.getBean("user", User.class);
-		System.out.println(user);
+		System.out.println("user: " + user);
 
 		User superUser = beanFactory.getBean("superUser", User.class);
-		System.out.println(superUser);
+		System.out.println("superUser: " + superUser);
 
 		// 构造器注入按照类型注入 resolveDependency
 		UserHolder userHolder = beanFactory.getBean("userHolder", UserHolder.class);
-		System.out.println(userHolder);
+		System.out.println("userHolder: " + userHolder);
 	}
 
 	private static class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
 
 		@Override
 		public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-
 			// 把配置完成的 superUser Bean 覆盖
 			if (ObjectUtils.nullSafeEquals("superUser", beanName) && SuperUser.class.equals(beanClass)) {
 				SuperUser superUser = new SuperUser();
@@ -54,6 +53,18 @@ public class BeanInstantiationLifecycleDemo {
 
 			// 容器默认的实例化操作
 			return null;
+		}
+
+		@Override
+		public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+			if (ObjectUtils.nullSafeEquals("user", beanName) && User.class.equals(bean.getClass())) {
+				// "user" 对象不允许属性赋值 (配置元信息 -> 属性值)
+				User user = (User) bean;
+				user.setId(110L);
+				user.setName("呼呼警官");
+				return false;
+			}
+			return true;
 		}
 
 	}
