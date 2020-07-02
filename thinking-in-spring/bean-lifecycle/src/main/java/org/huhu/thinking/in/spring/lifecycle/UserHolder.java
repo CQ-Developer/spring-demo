@@ -1,11 +1,16 @@
 package org.huhu.thinking.in.spring.lifecycle;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.huhu.thinking.in.spring.ioc.overview.domain.User;
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.context.EnvironmentAware;
+import org.springframework.core.env.Environment;
 
 /**
  * user holder 类
@@ -15,7 +20,7 @@ import org.huhu.thinking.in.spring.ioc.overview.domain.User;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class UserHolder {
+public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware {
 
 	private final User user;
 
@@ -45,7 +50,44 @@ public class UserHolder {
 
 	@Override
 	public String toString() {
-		return JSON.toJSONString(this, SerializerFeature.WriteMapNullValue);
+		return "UserHolder{" +
+				"user=" + user +
+				", number=" + number +
+				", description='" + description + '\'' +
+				", beanName='" + beanName + '\'' +
+				'}';
+	}
+
+	private ClassLoader classLoader;
+
+	private BeanFactory beanFactory;
+
+	private String beanName;
+
+	private Environment environment;
+
+	// 1
+	@Override
+	public void setBeanName(String name) {
+		this.beanName = name;
+	}
+
+	// 2
+	@Override
+	public void setBeanClassLoader(ClassLoader classLoader) {
+		this.classLoader = classLoader;
+	}
+
+	// 3
+	@Override
+	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+		this.beanFactory = beanFactory;
+	}
+
+	// 4
+	@Override
+	public void setEnvironment(Environment environment) {
+		this.environment = environment;
 	}
 
 }

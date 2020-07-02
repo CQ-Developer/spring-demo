@@ -1,14 +1,9 @@
 package org.huhu.thinking.in.spring.lifecycle;
 
-import org.huhu.thinking.in.spring.ioc.overview.domain.SuperUser;
 import org.huhu.thinking.in.spring.ioc.overview.domain.User;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.MutablePropertyValues;
-import org.springframework.beans.PropertyValues;
-import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.util.ObjectUtils;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * Bean 实例化生命周期示例
@@ -18,17 +13,24 @@ import org.springframework.util.ObjectUtils;
 public class BeanInstantiationLifecycleDemo {
 
 	public static void main(String[] args) {
+		executeBeanFactory();
+		System.out.println("---------------------------");
+		executeApplicationContext();
+	}
+
+	private static void executeBeanFactory() {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
-		// 添加 BeanPostProcessor 实例
-		beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
+		// 方法一: 添加 BeanPostProcessor 实例 MyInstantiationAwareBeanPostProcessor
+		// beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
 
+		// 方法二: 将 MyInstantiationAwareBeanPostProcessor 作为 Bean 注册
+
+		// 基于 XML 资源的 BeanDefinition 实现
 		XmlBeanDefinitionReader beanDefinitionReader = new XmlBeanDefinitionReader(beanFactory);
-
 		String[] locations = {"classpath:/META-INF/bean-constructor-dependency-injection.xml",
 				"classpath:/META-INF/dependency-lookup-context.xml"};
 		int beanDefinitionsCount = beanDefinitionReader.loadBeanDefinitions(locations);
-
 		System.out.println("已加载的 BeanDefinition 数量: " + beanDefinitionsCount);
 
 		User user = beanFactory.getBean("user", User.class);
@@ -42,66 +44,29 @@ public class BeanInstantiationLifecycleDemo {
 		System.out.println("userHolder: " + userHolder);
 	}
 
-	private static class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
+	private static void executeApplicationContext() {
+		String[] locations = {"classpath:/META-INF/bean-constructor-dependency-injection.xml",
+				"classpath:/META-INF/dependency-lookup-context.xml"};
 
-		@Override
-		public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-			// 把配置完成的 superUser Bean 覆盖
-			if (ObjectUtils.nullSafeEquals("superUser", beanName) && SuperUser.class.equals(beanClass)) {
-				SuperUser superUser = new SuperUser();
-				superUser.setName("我在实例化前被修改过了");
-				return superUser;
-			}
+		// 创建并启动 Spring 应用上下文
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(locations);
 
-			// 容器默认的实例化操作
-			return null;
-		}
+		// 添加 BeanPostProcessor 实例
+		// beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
 
-		@Override
-		public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-			if (ObjectUtils.nullSafeEquals("user", beanName) && User.class.equals(bean.getClass())) {
-				// "user" 对象不允许属性赋值 (配置元信息 -> 属性值)
-				User user = (User) bean;
-				user.setId(110L);
-				user.setName("呼呼警官");
-				return false;
-			}
-			return true;
-		}
+		User user = applicationContext.getBean("user", User.class);
+		System.out.println("user: " + user);
 
-		/**
-		 * user 是跳过 Bean 属性赋值 (填入)
-		 * superUser 是完全跳过 Bean 实例化 (Bean 属性赋值(填入))
-		 *
-		 * userHolder
-		 * 假设 <property name="number" value="1"/> 在 XML 文件中配置的话
-		 * 那么在 PropertyValues 中就包含一个 PropertyValues(number=1)
-		 *
-		 * 原始配置 <property name="description" value="The user Holder"/>
-		 */
-		@Override
-		public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
-			if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
-				final MutablePropertyValues propertyValues;
+		User superUser = applicationContext.getBean("superUser", User.class);
+		System.out.println("superUser: " + superUser);
 
-				if (pvs instanceof MutablePropertyValues) {
-					propertyValues = (MutablePropertyValues) pvs;
-				} else {
-					propertyValues = new MutablePropertyValues();
-				}
+		// 构造器注入按照类型注入 resolveDependency
+		UserHolder userHolder = applicationContext.getBean("userHolder", UserHolder.class);
+		System.out.println("userHolder: " + userHolder);
 
-				propertyValues.addPropertyValue("number", "1");
-
-				if (propertyValues.contains("description")) {
-					propertyValues.removePropertyValue("description");
-					propertyValues.addPropertyValue("description", "My user holder");
-				}
-
-				return propertyValues;
-			}
-			return null;
-		}
-
+		// 关闭 Spring 应用上下文
+		applicationContext.close();
 	}
+
 
 }
