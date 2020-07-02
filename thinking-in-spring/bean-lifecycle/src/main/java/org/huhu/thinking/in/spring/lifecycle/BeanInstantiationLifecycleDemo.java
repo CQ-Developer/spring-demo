@@ -3,6 +3,8 @@ package org.huhu.thinking.in.spring.lifecycle;
 import org.huhu.thinking.in.spring.ioc.overview.domain.SuperUser;
 import org.huhu.thinking.in.spring.ioc.overview.domain.User;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.PropertyValues;
 import org.springframework.beans.factory.config.InstantiationAwareBeanPostProcessor;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
@@ -65,6 +67,39 @@ public class BeanInstantiationLifecycleDemo {
 				return false;
 			}
 			return true;
+		}
+
+		/**
+		 * user 是跳过 Bean 属性赋值 (填入)
+		 * superUser 是完全跳过 Bean 实例化 (Bean 属性赋值(填入))
+		 *
+		 * userHolder
+		 * 假设 <property name="number" value="1"/> 在 XML 文件中配置的话
+		 * 那么在 PropertyValues 中就包含一个 PropertyValues(number=1)
+		 *
+		 * 原始配置 <property name="description" value="The user Holder"/>
+		 */
+		@Override
+		public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
+			if (ObjectUtils.nullSafeEquals("userHolder", beanName) && UserHolder.class.equals(bean.getClass())) {
+				final MutablePropertyValues propertyValues;
+
+				if (pvs instanceof MutablePropertyValues) {
+					propertyValues = (MutablePropertyValues) pvs;
+				} else {
+					propertyValues = new MutablePropertyValues();
+				}
+
+				propertyValues.addPropertyValue("number", "1");
+
+				if (propertyValues.contains("description")) {
+					propertyValues.removePropertyValue("description");
+					propertyValues.addPropertyValue("description", "My user holder");
+				}
+
+				return propertyValues;
+			}
+			return null;
 		}
 
 	}
