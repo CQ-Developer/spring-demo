@@ -14,6 +14,7 @@ public class BeanInstantiationLifecycleDemo {
 
 	public static void main(String[] args) {
 		executeBeanFactory();
+		System.out.println("---------------------------");
 		executeApplicationContext();
 	}
 
