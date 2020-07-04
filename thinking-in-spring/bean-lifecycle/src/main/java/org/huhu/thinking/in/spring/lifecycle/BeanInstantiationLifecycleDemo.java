@@ -14,15 +14,14 @@ public class BeanInstantiationLifecycleDemo {
 
 	public static void main(String[] args) {
 		executeBeanFactory();
-		System.out.println("---------------------------");
-		executeApplicationContext();
+		// executeApplicationContext();
 	}
 
 	private static void executeBeanFactory() {
 		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
 
 		// 方法一: 添加 BeanPostProcessor 实例 MyInstantiationAwareBeanPostProcessor
-		// beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
+		beanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
 
 		// 方法二: 将 MyInstantiationAwareBeanPostProcessor 作为 Bean 注册
 

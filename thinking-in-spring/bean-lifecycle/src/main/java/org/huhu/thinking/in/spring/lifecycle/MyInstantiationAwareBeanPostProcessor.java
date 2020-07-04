@@ -60,10 +60,19 @@ class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPos
 
 			if (propertyValues.contains("description")) {
 				propertyValues.removePropertyValue("description");
-				propertyValues.addPropertyValue("description", "My user holder");
+				propertyValues.addPropertyValue("description", "My user holder V2");
 			}
 
 			return propertyValues;
+		}
+		return null;
+	}
+
+	@Override
+	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+		if (ObjectUtils.nullSafeEquals(beanName, "userHolder") && UserHolder.class.equals(bean.getClass())) {
+			UserHolder userHolder = (UserHolder) bean;
+			userHolder.setDescription("My user holder V3");
 		}
 		return null;
 	}

@@ -12,6 +12,8 @@ import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
+import javax.annotation.PostConstruct;
+
 /**
  * user holder 类
  *
@@ -27,6 +29,11 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 	private Integer number;
 
 	private String description;
+
+	@PostConstruct
+	public void init() {
+		this.description = "My user holder V3";
+	}
 
 	public String getDescription() {
 		return description;

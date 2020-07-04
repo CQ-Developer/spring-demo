@@ -7,7 +7,7 @@
 	<bean id="userHolder" class="org.huhu.thinking.in.spring.lifecycle.UserHolder" autowire="constructor">
 		<!-- 通过 XML 元素配置-->
 		<!--<property name="number" value="1"/>-->
-		<property name="description" value="The user Holder"/>
+		<property name="description" value="The user Holder V1"/>
 	</bean>
 
 	<bean class="org.huhu.thinking.in.spring.lifecycle.MyInstantiationAwareBeanPostProcessor"/>
