@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.huhu.thinking.in.spring.ioc.overview.domain.User;
 import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.BeanClassLoaderAware;
-import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.*;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.core.env.Environment;
 
@@ -22,7 +19,7 @@ import javax.annotation.PostConstruct;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware {
+public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware, InitializingBean {
 
 	private final User user;
 
@@ -30,9 +27,31 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 
 	private String description;
 
+	/**
+	 * 依赖注解驱动
+	 * 当前场景: BeanFactory
+	 */
 	@PostConstruct
+	public void initPostConstructor() {
+		// postProcessBeforeInitialization V3 -> initPostConstructor V4
+		this.description = "My user holder V4";
+		System.out.println("initPostConstructor() = " + description);
+	}
+
+	@Override
+	public void afterPropertiesSet() throws Exception {
+		// initPostConstructor V4 -> afterPropertiesSet V5
+		this.description = "The user Holder V5";
+		System.out.println("afterPropertiesSet() = " + description);
+	}
+
+	/**
+	 * 自定义初始化方法
+	 */
 	public void init() {
-		this.description = "My user holder V3";
+		// afterPropertiesSet V5 -> init V6
+		this.description = "The user Holder V6";
+		System.out.println("init() = " + description);
 	}
 
 	public String getDescription() {
@@ -91,7 +110,7 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		this.beanFactory = beanFactory;
 	}
 
-	// 4
+	// 4...
 	@Override
 	public void setEnvironment(Environment environment) {
 		this.environment = environment;
