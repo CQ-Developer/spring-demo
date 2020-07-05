@@ -19,7 +19,8 @@ import javax.annotation.PostConstruct;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware, InitializingBean {
+public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFactoryAware, EnvironmentAware,
+		InitializingBean, SmartInitializingSingleton {
 
 	private final User user;
 
@@ -52,6 +53,13 @@ public class UserHolder implements BeanNameAware, BeanClassLoaderAware, BeanFact
 		// afterPropertiesSet V5 -> init V6
 		this.description = "The user Holder V6";
 		System.out.println("init() = " + description);
+	}
+
+	@Override
+	public void afterSingletonsInstantiated() {
+		// postProcessAfterInitialization V7 -> V8
+		this.description = "The User Holder V8";
+		System.out.println("afterSingletonsInstantiated() = " + description);
 	}
 
 	public String getDescription() {

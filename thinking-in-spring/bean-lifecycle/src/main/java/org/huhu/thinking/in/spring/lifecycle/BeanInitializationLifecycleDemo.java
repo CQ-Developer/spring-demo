@@ -25,6 +25,10 @@ public class BeanInitializationLifecycleDemo {
 		String[] locations = {"classpath:/META-INF/bean-constructor-dependency-injection.xml", "classpath:/META-INF/dependency-lookup-context.xml"};
 		xmlBeanDefinitionReader.loadBeanDefinitions(locations);
 
+		// SmartInitializingSingleton 通常在 Spring ApplicationContext 场景中使用
+		// preInstantiateSingletons 将已注册的 BeanDefinition 初始化为 Spring Bean
+		defaultListableBeanFactory.preInstantiateSingletons();
+
 		UserHolder userHolder = defaultListableBeanFactory.getBean("userHolder", UserHolder.class);
 		System.out.println(userHolder);
 	}
