@@ -4,7 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        https://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="userHolder" class="org.huhu.thinking.in.spring.lifecycle.UserHolder" autowire="constructor" init-method="init">
+	<bean id="userHolder" class="org.huhu.thinking.in.spring.lifecycle.UserHolder"
+	      autowire="constructor" init-method="init" destroy-method="doDestroy">
 		<!-- 通过 XML 元素配置-->
 		<!--<property name="number" value="1"/>-->
 		<property name="description" value="The user Holder V1"/>

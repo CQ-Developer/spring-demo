@@ -15,8 +15,8 @@ public class BeanLifecycleDemo {
 		DefaultListableBeanFactory defaultListableBeanFactory = new DefaultListableBeanFactory();
 
 		defaultListableBeanFactory.addBeanPostProcessor(new MyInstantiationAwareBeanPostProcessor());
-		defaultListableBeanFactory.addBeanPostProcessor(new CommonAnnotationBeanPostProcessor());
 		defaultListableBeanFactory.addBeanPostProcessor(new MyDestructionAwareBeanPostProcessor());
+		defaultListableBeanFactory.addBeanPostProcessor(new CommonAnnotationBeanPostProcessor());
 
 		XmlBeanDefinitionReader xmlBeanDefinitionReader = new XmlBeanDefinitionReader(defaultListableBeanFactory);
 		String[] locations = {"classpath:/META-INF/bean-constructor-dependency-injection.xml", "classpath:/META-INF/dependency-lookup-context.xml"};
