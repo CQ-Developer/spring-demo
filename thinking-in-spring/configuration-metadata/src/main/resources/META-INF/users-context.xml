@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:users="http://www.huhu.org/schema/users"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+						   http://www.huhu.org/schema/users http://www.huhu.org/schema/users.xsd">
+
+	<!--<bean id="user" class="org.huhu.thinking.in.spring.ioc.overview.domain.User">
+		<property name="id" value="1"/>
+		<property name="name" value="呼呼"/>
+		<property name="city" value="NANJING"/>
+		<property name="workCities" value="NANJING,BEIJING"/>
+		<property name="lifeCities">
+			<list>
+				<value>NANJING</value>
+				<value>HANGZHOU</value>
+				<value>BEIJING</value>
+			</list>
+		</property>
+		<property name="configFileLocation" value="classpath:/META-INF/user-config.properties"/>
+	</bean>-->
+
+	<users:user id="1" name="陈强" city="NANJING"/>
+
+</beans>
