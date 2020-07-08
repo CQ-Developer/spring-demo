@@ -22,6 +22,7 @@ public class PropertySourceDemo {
 	public static void main(String[] args) {
 		AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
 
+		// 基于 API 添加外部化配置
 		Map<String, Object> source = new HashMap<>();
 		source.put("user.name", "chenqiang");
 		MapPropertySource mapPropertySource = new MapPropertySource("first-property-source", source);
